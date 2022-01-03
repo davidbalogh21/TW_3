@@ -18,15 +18,33 @@ import java.util.List;
 
 @Controller
 public class ApplicationController {
+    private final ReceiptService receiptService;
     private final UserService userService;
     private final SecurityService securityService;
     private final UserValidator userValidator;
 
     @Autowired
-    public ApplicationController(UserService userService, SecurityService securityService, UserValidator userValidator) {
+    public ApplicationController(ReceiptService receiptService, UserService userService, SecurityService securityService, UserValidator userValidator) {
+        this.receiptService = receiptService;
         this.userService = userService;
         this.securityService = securityService;
         this.userValidator = userValidator;
+    }
+
+    /***
+     * @param model supply attributes used for rendering views
+     * @param principal is the currently logged in user
+     * @return what view to use
+     */
+    @GetMapping("/receipts")
+    public String showTable(Model model, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+
+        System.out.println("THE CURRENT USER " + principal.getName());
+        List<Receipt> receipts = receiptService.getReceiptsByUser(user);
+
+        model.addAttribute("receipts", receipts);
+        return "receipts";
     }
 
     @GetMapping("/registration")

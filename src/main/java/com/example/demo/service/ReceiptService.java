@@ -22,6 +22,9 @@ public class ReceiptService {
         return receiptRepository.findAll();
     }
 
+    public List<Receipt> getReceiptsByUser(User user) {
+        return receiptRepository.getAllByUser(user);
+    }
     public void save(Receipt receipt) {
         receiptRepository.save(receipt);
     }

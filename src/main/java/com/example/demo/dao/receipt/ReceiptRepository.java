@@ -14,4 +14,5 @@ import java.util.List;
  * This is basically Repository Pattern
  */
 public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
+    List<Receipt> getAllByUser(User user);
 }
