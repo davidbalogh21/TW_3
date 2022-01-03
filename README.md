@@ -1,1 +1,1 @@
-# Receipts-Management-Java-Spring
+# Java-Spring-Boot-Example
