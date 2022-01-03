@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,16 +13,19 @@ import java.time.LocalDate;
 public class Receipt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long id;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String location;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Double amount;
-    @Getter @Setter
+    @Getter
+    @Setter
     private LocalDate date;
 
-    @JsonBackReference
     @ManyToOne
     @Getter @Setter
     private User user;

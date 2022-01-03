@@ -1,4 +1,5 @@
 package com.example.demo.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Role {
     @Getter @Setter
     private String name;
 
+    @JsonBackReference
     @Getter @Setter
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
