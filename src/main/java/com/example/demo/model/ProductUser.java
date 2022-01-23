@@ -5,32 +5,26 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor @NoArgsConstructor @Builder
 @Entity
-@Table(name = "user", schema = "public")
-public class User {
+@Table(name = "user_products", schema = "public")
+public class ProductUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
     private Long id;
 
     @Getter @Setter
-    private String username;
+    private Double price;
 
     @Getter @Setter
-    private String password;
+    private int stock;
 
-    @Transient
+    @ManyToMany(mappedBy = "productList",fetch = FetchType.EAGER)
     @Getter @Setter
-    private String passwordConfirm;
-
-    @Getter @Setter
-    private String role;
-
-    @OneToMany
-    @Getter @Setter
-    private List<Receipt> receipts = new ArrayList<>();
+    private List<User> user;
 
     @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(name = "user_products", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "products_id"))

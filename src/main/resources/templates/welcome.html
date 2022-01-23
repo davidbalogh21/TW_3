@@ -6,6 +6,7 @@
 <div th:replace="fragments/components::menu"></div>
 <div class="container">
     <h2>Welcome!</h2>
+    <h3>You are logged in as <span th:text="${user.getUsername()}"></span> with the role of <span th:text="${user.getRole()}"></span></h3>
 </div>
 
 <div th:include="fragments/components::bootstrap_script"/>

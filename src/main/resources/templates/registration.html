@@ -24,7 +24,7 @@
                            placeholder="Username"
                            th:field="*{username}"
                            autofocus="true">
-                    <label for="floatingInput">Username</label>
+                    <label for="floatingInput">Username *</label>
                     <span class="has-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
                 </div>
 
@@ -36,7 +36,7 @@
                            class="form-control"
                            th:field="*{password}"
                            placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+                    <label for="floatingPassword">Password *</label>
                     <span class="has-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 </div>
 
@@ -50,8 +50,15 @@
                            placeholder="Confirm your password">
                     <span class="has-error" th:if="${#fields.hasErrors('passwordConfirm')}"
                           th:errors="*{passwordConfirm}"></span>
-                    <label for="confirmPassword">Confirm Password</label>
+                    <label for="confirmPassword">Confirm Password *</label>
                 </div>
+            </div>
+            <div>
+                <label for="role">Please select a role *</label>
+                <select class="form-select" aria-label="Default select example" required th:field="*{role}" id="role">
+                <option th:each="roleOption : ${T(com.example.demo.util.RolesEnum).values()}"
+                        th:value="${roleOption}" th:text="${roleOption}"></option>
+            </select>
             </div>
 
             <!-- Login/Register -->

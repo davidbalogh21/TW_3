@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/components::header">
+<body>
+<div th:replace="fragments/components::menu"></div>
+<div class="container mt-1">
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <h2 class="form-heading text-center">Products you can buy</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th> Name</th>
+                <th> Price</th>
+                <th> Stock</th>
+                <th> Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${productList.isEmpty()}">
+                <td colspan="2"> No Products Available</td>
+            </tr>
+            <tr th:each="product : ${productList}">
+                <td><span th:text="${product.name}"> Name </span></td>
+                <td><span th:text="${product.price}"> Price </span></td>
+                <td><span th:text="${product.stock}"> Stock </span></td>
+                <form>
+                <td><input type="number" id="quantity" name="quantity" min="1" value="1" th:max="${product.stock}"></td>
+                <td><button type="submit" class="btn btn-primary">Buy</button></td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:include="fragments/components::bootstrap_script"/>
+</body>
+</html>

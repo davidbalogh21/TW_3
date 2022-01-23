@@ -1,14 +1,16 @@
 package com.example.demo.model;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor @NoArgsConstructor @Builder
 @Entity
-@Table(name = "role", schema = "public")
-public class Role {
+@Table(name = "product", schema = "public")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
@@ -17,8 +19,13 @@ public class Role {
     @Getter @Setter
     private String name;
 
-    @JsonBackReference
     @Getter @Setter
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private Double price;
+
+    @Getter @Setter
+    private Long stock;
+
+    @ManyToMany(mappedBy = "productList",fetch = FetchType.EAGER)
+    @Getter @Setter
+    private List<User> user;
 }

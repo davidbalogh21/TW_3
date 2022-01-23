@@ -1,4 +1,4 @@
-package com.example.demo.dao.receipt;
+package com.example.demo.dao;
 
 import com.example.demo.model.Receipt;
 import com.example.demo.model.User;
