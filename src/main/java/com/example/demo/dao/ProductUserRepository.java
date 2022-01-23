@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> getAllByUser(User user);
-    List<Product> findByUserIn(List<User> users);
+public interface ProductUserRepository extends JpaRepository<ProductUser, Long> {
+    List<ProductUser> getAllByUserOrderByPriceAsc(User user);
+    List<ProductUser> findByUserInOrderByPriceAsc(List<User> users);
 }
+

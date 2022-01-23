@@ -9,7 +9,7 @@ import java.util.Set;
 
 @AllArgsConstructor @NoArgsConstructor @Builder
 @Entity
-@Table(name = "user_products", schema = "public")
+@Table(name = "product_user", schema = "public")
 public class ProductUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,20 @@ public class ProductUser {
     @Getter @Setter
     private int stock;
 
-    @ManyToMany(mappedBy = "productList",fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
     @Getter @Setter
-    private List<User> user;
+    private User user;
 
-    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_products", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "products_id"))
-    private List<Product> productList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "products_id",referencedColumnName = "id")
+    @Getter @Setter
+    private Product product;
+
+    public ProductUser(Double price, int stock, User user, Product product) {
+        this.price = price;
+        this.stock = stock;
+        this.user = user;
+        this.product = product;
+    }
 }

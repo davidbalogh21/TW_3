@@ -13,20 +13,38 @@ import java.time.LocalDate;
 public class Receipt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
+    @Getter @Setter
     private Long id;
-    @Getter
-    @Setter
-    private String location;
-    @Getter
-    @Setter
+
+    @Getter @Setter
     private Double amount;
-    @Getter
-    @Setter
+
+    @Getter @Setter
+    private int quantity;
+
+    @Getter @Setter
     private LocalDate date;
+
+    @Getter @Setter
+    private String productName;
+
+    @Getter @Setter
+    private Double unitPrice;
+
+    @Getter @Setter
+    private String dealer;
 
     @ManyToOne
     @Getter @Setter
     private User user;
+
+    public Receipt(Double amount, int quantity, LocalDate date, String productName, Double unitPrice, String dealer, User user) {
+        this.amount = amount;
+        this.quantity = quantity;
+        this.date = date;
+        this.productName = productName;
+        this.unitPrice = unitPrice;
+        this.dealer = dealer;
+        this.user = user;
+    }
 }

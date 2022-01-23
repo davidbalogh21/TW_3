@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.receipt;
 
 import com.example.demo.dao.ReceiptRepository;
 import com.example.demo.model.Receipt;
@@ -24,6 +24,7 @@ public class ReceiptService {
     public List<Receipt> getReceiptsByUser(User user) {
         return receiptRepository.getAllByUser(user);
     }
+
     public void save(Receipt receipt) {
         receiptRepository.save(receipt);
     }

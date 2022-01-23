@@ -19,12 +19,6 @@ public class Product {
     @Getter @Setter
     private String name;
 
-    @Getter @Setter
-    private Double price;
-
-    @Getter @Setter
-    private Long stock;
-
     @ManyToMany(mappedBy = "productList",fetch = FetchType.EAGER)
     @Getter @Setter
     private List<User> user;

@@ -12,6 +12,7 @@
                 <th> Name</th>
                 <th> Price</th>
                 <th> Stock</th>
+                <th> Sold by</th>
                 <th> Quantity</th>
             </tr>
             </thead>
@@ -20,12 +21,15 @@
                 <td colspan="2"> No Products Available</td>
             </tr>
             <tr th:each="product : ${productList}">
-                <td><span th:text="${product.name}"> Name </span></td>
+                <td><span th:text="${product.getProduct().name}"> Name </span></td>
                 <td><span th:text="${product.price}"> Price </span></td>
                 <td><span th:text="${product.stock}"> Stock </span></td>
-                <form>
-                <td><input type="number" id="quantity" name="quantity" min="1" value="1" th:max="${product.stock}"></td>
-                <td><button type="submit" class="btn btn-primary">Buy</button></td>
+                <td><span th:text="${product.getUser().username}"> Sold by </span></td>
+
+                <form name="processClientPurchase" method="POST" th:action="@{/processClientPurchase}">
+                    <input th:value="${product.getId()}" type="hidden" value="1" id="id" name="id">
+                    <td><input th:value="${buyQuantity}" type="number" value="1" id="stock" name="buyQuantity" min="1" th:max="${product.stock}"></td>
+                    <td><button type="submit" class="btn btn-primary">Buy</button></td>
                 </form>
             </tr>
             </tbody>

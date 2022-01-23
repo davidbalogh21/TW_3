@@ -2,22 +2,23 @@ package com.example.demo.controller;
 
 import com.example.demo.config.UserValidator;
 import com.example.demo.model.Product;
+import com.example.demo.model.ProductUser;
 import com.example.demo.model.Receipt;
 import com.example.demo.model.User;
-import com.example.demo.service.ProductServiceImpl;
-import com.example.demo.service.ReceiptService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.product.ProductServiceImpl;
+import com.example.demo.service.product_user.ProductUserService;
+import com.example.demo.service.product_user.ProductUserServiceImpl;
+import com.example.demo.service.receipt.ReceiptService;
+import com.example.demo.service.user.UserService;
 import com.example.demo.service.security.SecurityService;
-import com.example.demo.util.RolesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -27,14 +28,16 @@ public class ApplicationController {
     private final SecurityService securityService;
     private final UserValidator userValidator;
     private final ProductServiceImpl productService;
+    private final ProductUserServiceImpl productUserService;
 
     @Autowired
-    public ApplicationController(ReceiptService receiptService, UserService userService, SecurityService securityService, UserValidator userValidator, ProductServiceImpl productService) {
+    public ApplicationController(ReceiptService receiptService, UserService userService, SecurityService securityService, UserValidator userValidator, ProductServiceImpl productService, ProductUserServiceImpl productUserService) {
         this.receiptService = receiptService;
         this.userService = userService;
         this.securityService = securityService;
         this.userValidator = userValidator;
         this.productService = productService;
+        this.productUserService = productUserService;
     }
 
     /***
@@ -45,8 +48,6 @@ public class ApplicationController {
     @GetMapping("/receipts")
     public String showTable(Model model, Principal principal) {
         User user = userService.findByUsername(principal.getName());
-
-        System.out.println("THE CURRENT USER " + principal.getName());
         List<Receipt> receipts = receiptService.getReceiptsByUser(user);
 
         model.addAttribute("receipts", receipts);
@@ -107,23 +108,62 @@ public class ApplicationController {
 
         switch (user.getRole()) {
             case "MANUFACTURER":
-                List<Product> products = productService.getProductsByUser(user);
+                List<ProductUser> products = productUserService.getProductsByUser(user);
                 model.addAttribute("productList", products);
                 return "products_manufacturer";
+
             case "DEALER":
-                List<Product> myProducts = productService.getProductsByUser(user);
+                List<ProductUser> myProducts = productUserService.getProductsByUser(user);
                 model.addAttribute("myProductList", myProducts);
 
                 List<User> manufacturers = userService.findByRole("MANUFACTURER");
-                List<Product> productsOfManufacturers = productService.getProductsByUserRole(manufacturers);
+                List<ProductUser> productsOfManufacturers = productUserService.getProductsByUserRole(manufacturers);
                 model.addAttribute("productList", productsOfManufacturers);
                 return "products_dealer";
+
             case "CLIENT":
                 List<User> dealers = userService.findByRole("DEALER");
-                List<Product> productsOfDealers = productService.getProductsByUserRole(dealers);
+                List<ProductUser> productsOfDealers = productUserService.getProductsByUserRole(dealers);
                 model.addAttribute("productList", productsOfDealers);
                 return "products_client";
         }
         return "welcome";
     }
+
+    @PostMapping( "/processDealerPurchase")
+    public String processPurchase(@RequestParam int stockData, Long id, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        ProductUser foundProductUser = productUserService.getProductUserById(id);
+
+        ProductUser newProductUser = new ProductUser(foundProductUser.getPrice(), stockData, user, foundProductUser.getProduct());
+
+        Receipt newReceipt = new Receipt(foundProductUser.getPrice() * stockData, stockData, LocalDate.now(), foundProductUser.getProduct().getName(), foundProductUser.getPrice(), foundProductUser.getUser().getUsername(), user);
+        receiptService.save(newReceipt);
+
+        productUserService.save(newProductUser);
+        return "redirect:/products";
+    };
+
+    @PostMapping( "/updateDealerPrice")
+    public String processUpdate(@RequestParam Double priceData, Long id, Principal principal) {
+        ProductUser foundProductUser = productUserService.getProductUserById(id);
+
+        foundProductUser.setPrice(priceData);
+        productUserService.save(foundProductUser);
+        return "redirect:/products";
+    };
+
+    @PostMapping( "/processClientPurchase")
+    public String processClientPurchase(@RequestParam int buyQuantity, Long id, Principal principal, Model model) {
+        User user = userService.findByUsername(principal.getName());
+
+        ProductUser foundProductUser = productUserService.getProductUserById(id);
+        foundProductUser.setStock(foundProductUser.getStock() - buyQuantity);
+        productUserService.save(foundProductUser);
+
+        Receipt newReceipt = new Receipt(foundProductUser.getPrice() * buyQuantity, buyQuantity, LocalDate.now(), foundProductUser.getProduct().getName(), foundProductUser.getPrice(), foundProductUser.getUser().getUsername(), user);
+        receiptService.save(newReceipt);
+
+        return "redirect:/receipts";
+    };
 }

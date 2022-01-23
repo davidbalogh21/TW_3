@@ -5,12 +5,14 @@
 <div th:replace="fragments/components::menu"></div>
 <div class="container mt-1">
     <div class="shadow p-3 mb-5 bg-body rounded">
-        <h2 class="form-heading text-center">Products from manufacturers</h2>
+        <h2 class="form-heading text-center">Buy from manufacturers</h2>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th> Name</th>
                 <th> Price</th>
+                <th> Sold by</th>
+                <th> Quantity</th>
             </tr>
             </thead>
             <tbody>
@@ -18,8 +20,15 @@
                 <td colspan="2"> No Products Available</td>
             </tr>
             <tr th:each="product : ${productList}">
-                <td><span th:text="${product.name}"> Name </span></td>
+                <td><span th:text="${product.getProduct().name}"> Name </span></td>
                 <td><span th:text="${product.price}"> Price </span></td>
+                <td><span th:text="${product.getUser().username}"> Price </span></td>
+
+                <form name="stockSubmit" method="POST" th:action="@{/processDealerPurchase}">
+                    <input th:value="${product.getId()}" type="hidden" value="1" id="id" name="id" min="1" max="9999999999">
+                    <td><input th:value="${stockData}" type="number" value="1" id="stock" name="stockData" min="1" max="9999999999"></td>
+                    <td><button type="submit" class="btn btn-primary">Buy</button></td>
+                </form>
             </tr>
             </tbody>
         </table>
@@ -31,7 +40,8 @@
             <thead>
             <tr>
                 <th> Name</th>
-                <th> Price</th>
+                <th> Price we sell at</th>
+                <th> Update price</th>
                 <th> Stock</th>
             </tr>
             </thead>
@@ -40,9 +50,15 @@
                 <td colspan="2"> No Products Available</td>
             </tr>
             <tr th:each="product : ${myProductList}">
-                <td><span th:text="${product.name}"> Name </span></td>
+                <form name="updateDealerPrice" method="POST" th:action="@{/updateDealerPrice}">
+                <td><span th:text="${product.getProduct().name}"> Name </span></td>
                 <td><span th:text="${product.price}"> Price </span></td>
+                    <input th:value="${product.getId()}" type="hidden" value="1" id="product_id" name="id" min="1" max="9999999999">
+                    <td><input th:value="${priceData}" type="number" value="1" id="price" name="priceData" min="1" max="9999999999"></td>
                 <td><span th:text="${product.stock}"> Stock </span></td>
+                    <td><button type="submit" class="btn btn-primary">Update</button></td>
+                </form>
+
             </tr>
             </tbody>
         </table>

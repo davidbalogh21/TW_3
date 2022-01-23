@@ -9,9 +9,13 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th> Location</th>
-                <th> Amount</th>
                 <th> Date</th>
+                <th> Item</th>
+                <th> Item Price</th>
+                <th> Quantity</th>
+                <th> Bought from</th>
+                <th> Final amount</th>
+
             </tr>
             </thead>
             <tbody>
@@ -19,9 +23,12 @@
                 <td colspan="2"> No Receipts Available</td>
             </tr>
             <tr th:each="receipt : ${receipts}">
-                <td><span th:text="${receipt.location}"> Location </span></td>
-                <td><span th:text="${receipt.amount}"> Amount </span></td>
                 <td><span th:text="${receipt.date}"> Date </span></td>
+                <td><span th:text="${receipt.productName}"> Name </span></td>
+                <td><span th:text="${receipt.unitPrice}"> Price </span></td>
+                <td><span th:text="${receipt.quantity}"> Quantity </span></td>
+                <td><span th:text="${receipt.dealer}"> Bought from </span></td>
+                <td><span th:text="${receipt.amount}"> Final amount </span></td>
             </tr>
             </tbody>
         </table>

@@ -1,8 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.user;
 
 import com.example.demo.dao.UserRepository;
 import com.example.demo.model.User;
-import com.example.demo.util.RolesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -18,11 +18,12 @@
                 <td colspan="2"> No Products Available</td>
             </tr>
             <tr th:each="product : ${productList}">
-                <td><span th:text="${product.name}"> Name </span></td>
+                <td><span th:text="${product.getProduct().name}"> Name </span></td>
                 <td><span th:text="${product.price}"> Price </span></td>
             </tr>
             </tbody>
         </table>
+        <button type="button" class="btn btn-primary"><a th:href="@{/add-product}">Buy</a></button>
     </div>
 </div>
 

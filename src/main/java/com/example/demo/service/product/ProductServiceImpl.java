@@ -1,9 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.product;
 
 import com.example.demo.dao.ProductRepository;
 import com.example.demo.model.Product;
 import com.example.demo.model.User;
-import com.example.demo.util.RolesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,4 +25,5 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsByUser(User user) {return productRepository.getAllByUser(user);}
 
     public List<Product> getProductsByUserRole(List<User> users) {return productRepository.findByUserIn(users);}
+
 }
