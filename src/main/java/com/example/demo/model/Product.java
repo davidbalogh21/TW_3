@@ -22,4 +22,9 @@ public class Product {
     @ManyToMany(mappedBy = "productList",fetch = FetchType.EAGER)
     @Getter @Setter
     private List<User> user;
+
+    public Product(String name, List<User> user) {
+        this.name = name;
+        this.user = user;
+    }
 }

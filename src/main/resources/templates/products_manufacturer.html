@@ -23,7 +23,42 @@
             </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-primary"><a th:href="@{/add-product}">Buy</a></button>
+    </div>
+    <br>
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <form method="POST" class="form-signin" th:action="@{/addItem}">
+
+            <h2 class="form-heading text-center">Add a new item</h2>
+
+            <div class="form-group">
+                <!-- Item name -->
+                <div class="form-floating mb-3">
+                    <input id="floatingName"
+                           name="name"
+                           type="text"
+                           class="form-control"
+                           placeholder="Username"
+                           th:value="*{name}"
+                           autofocus="floatingName"
+                           required>
+                    <label for="floatingName">Item name *</label>
+                </div>
+
+                <!-- Price -->
+                <div class="form-floating mb-3">
+                    <input id="floatingPrice"
+                           name="price"
+                           type="number"
+                           class="form-control"
+                           th:value="*{price}"
+                           placeholder="Price"
+                           required>
+                    <label for="floatingPrice">Item price *</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+        </div>
     </div>
 </div>
 

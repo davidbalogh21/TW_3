@@ -10,5 +10,6 @@ import java.util.List;
 public interface ProductUserRepository extends JpaRepository<ProductUser, Long> {
     List<ProductUser> getAllByUserOrderByPriceAsc(User user);
     List<ProductUser> findByUserInOrderByPriceAsc(List<User> users);
+    boolean existsByProductId(Long id);
 }
 

@@ -11,5 +11,7 @@ public interface ProductUserService {
 
     List<ProductUser> getProductsByUser(User user);
 
-     List<ProductUser> getProductsByUserRole(List<User> users);
+    List<ProductUser> getProductsByUserRole(List<User> users);
+
+    boolean findProduct(Long id);
 }

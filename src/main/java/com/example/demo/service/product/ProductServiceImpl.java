@@ -26,4 +26,6 @@ public class ProductServiceImpl implements ProductService {
 
     public List<Product> getProductsByUserRole(List<User> users) {return productRepository.findByUserIn(users);}
 
+    public void save(Product product) { productRepository.save(product);}
+
 }

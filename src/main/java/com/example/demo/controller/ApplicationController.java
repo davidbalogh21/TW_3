@@ -130,7 +130,7 @@ public class ApplicationController {
         return "welcome";
     }
 
-    @PostMapping( "/processDealerPurchase")
+    @PostMapping("/processDealerPurchase")
     public String processPurchase(@RequestParam int stockData, Long id, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         ProductUser foundProductUser = productUserService.getProductUserById(id);
@@ -142,19 +142,23 @@ public class ApplicationController {
 
         productUserService.save(newProductUser);
         return "redirect:/products";
-    };
+    }
 
-    @PostMapping( "/updateDealerPrice")
+    ;
+
+    @PostMapping("/updateDealerPrice")
     public String processUpdate(@RequestParam Double priceData, Long id, Principal principal) {
         ProductUser foundProductUser = productUserService.getProductUserById(id);
 
         foundProductUser.setPrice(priceData);
         productUserService.save(foundProductUser);
         return "redirect:/products";
-    };
+    }
 
-    @PostMapping( "/processClientPurchase")
-    public String processClientPurchase(@RequestParam int buyQuantity, Long id, Principal principal, Model model) {
+    ;
+
+    @PostMapping("/processClientPurchase")
+    public String processClientPurchase(@RequestParam int buyQuantity, Long id, Principal principal) {
         User user = userService.findByUsername(principal.getName());
 
         ProductUser foundProductUser = productUserService.getProductUserById(id);
@@ -165,5 +169,23 @@ public class ApplicationController {
         receiptService.save(newReceipt);
 
         return "redirect:/receipts";
-    };
+    }
+
+    ;
+
+    @PostMapping("/addItem")
+    public String addNewItem(@RequestParam Double price, String name, Principal principal, Model model) {
+        final int MANUFACTURER_DEFAULT_STOCK = 9999;
+        User user = userService.findByUsername(principal.getName());
+        List<User> users = List.of(user);
+
+        Product newProduct = new Product(name, users);
+        productService.save(newProduct);
+        ProductUser newProductUser = new ProductUser(price, MANUFACTURER_DEFAULT_STOCK, user, newProduct);
+        productUserService.save(newProductUser);
+
+        return "redirect:/products";
+    }
+
+    ;
 }

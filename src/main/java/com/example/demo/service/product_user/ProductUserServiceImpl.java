@@ -30,6 +30,8 @@ public class ProductUserServiceImpl implements ProductUserService {
     public void save (ProductUser productUser) {productUserRepository.save(productUser);}
 
     public ProductUser getProductUserById (Long id) {return productUserRepository.getById(id);}
-}
+
+    public boolean findProduct (Long id) {return productUserRepository.existsByProductId(id);}
+};
 
 
